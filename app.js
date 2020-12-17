@@ -18,18 +18,18 @@ mongoose.connection.on("error", () => {
 
 require("./models/user");
 require("./models/post");
-require("./models/re3d");
+
 app.use(express.json());
 app.use(require("./routes/auth"));
 app.use(require("./routes/post"));
 app.use(require("./routes/user"));
-app.use(require("./routes/re"));
+
 if (process.env.NODE_ENV == "production") {
   app.use(express.static("client/build"));
   console.log("in preduction");
   const path = require("path");
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
     console.log("in preduction");
   });
 }
