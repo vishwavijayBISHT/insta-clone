@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const { MONGO_URI } = require("./keys");
 const PORT = 5000;
 
+require("./Schema/user");
+
 // app.use() this is how to use middle ware to make all the routes use it
 
 // ot be specfic app.get("/", middleware,(req, res) => {
