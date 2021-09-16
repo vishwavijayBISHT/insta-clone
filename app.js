@@ -5,8 +5,10 @@ const { MONGO_URI } = require("./keys");
 const PORT = 5000;
 app.use(express.json());
 require("./Schema/user");
+require("./Schema/post");
 
 app.use(require("./routes/auth"));
+// app.use(require("./routes/post"));
 
 mongoose.connect(MONGO_URI);
 mongoose.connection.on("connected", () => {
