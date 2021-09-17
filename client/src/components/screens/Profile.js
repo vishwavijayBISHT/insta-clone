@@ -11,7 +11,8 @@ export default function Profile() {
       headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
     }).then((res) =>
       res.json().then((result) => {
-        setPics(result.mypost);
+        console.log(result);
+        setPics(result.post);
       })
     );
   }, []);

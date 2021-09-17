@@ -94,7 +94,6 @@ export default function Home() {
       });
   };
   const deletePost = (postid) => {
-    console.log("yo");
     fetch(`/deletepost/${postid}`, {
       method: "delete",
       headers: {
@@ -111,23 +110,33 @@ export default function Home() {
     );
   };
 
+  console.log(data);
   return (
     <div className="home">
-      {data.map((item) => {
+      {data?.map((item) => {
         return (
           <div className="card home-card" key={item._id}>
-            <h5>{item.postedby.name}</h5>
-            {item.postedby._id == state._id && (
-              <i
-                style={{ float: "right", zIndex: "2" }}
-                className="material-icons"
-                onClick={() => deletePost(item._id)}
-              >
-                delete
-              </i>
-            )}
+            <div>
+              <h5>{item.postedby.name}</h5>
+              {item.postedby._id == state._id && (
+                <i
+                  style={{
+                    zIndex: "10",
+                    marginBottom: "30px",
+                    cursor: "pointer",
+                  }}
+                  className="material-icons"
+                  onClick={() => {
+                    console.log("yoyo");
+                    deletePost(item._id);
+                  }}
+                >
+                  delete
+                </i>
+              )}
+            </div>
 
-            <div className="card-image">
+            <div className="card-image" style={{ zIndex: "1" }}>
               <img src={item.photo} />
             </div>
             <div className="card-content">

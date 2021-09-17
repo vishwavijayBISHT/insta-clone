@@ -8,7 +8,8 @@ require("./Schema/user");
 require("./Schema/post");
 
 app.use(require("./routes/auth"));
-// app.use(require("./routes/post"));
+app.use(require("./routes/post"));
+app.use(require("./routes/users"));
 
 mongoose.connect(MONGO_URI);
 mongoose.connection.on("connected", () => {
@@ -21,9 +22,3 @@ mongoose.connection.on("error", (err) => {
 app.listen(PORT, () => {
   console.log("server is running");
 });
-
-// app.use() this is how to use middle ware to make all the routes use it
-
-// ot be specfic app.get("/", middleware,(req, res) => {
-//   res.send("yo");
-// });

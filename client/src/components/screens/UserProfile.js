@@ -6,14 +6,15 @@ export default function UserProfile() {
   const [mypics, setPics] = useState([]);
   const { state, dispatch } = useContext(UserContext);
   const { userid } = useParams();
-
+  const [user, setuser] = useState();
   useEffect(() => {
-    fetch(`/users/:${userid}`, {
+    fetch(`/users/${userid}`, {
       headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
     }).then((res) =>
       res.json().then((result) => {
         console.log(result);
-        setPics(result.mypost);
+        setPics(result.post);
+        setuser(result.user);
       })
     );
   }, []);
@@ -44,13 +45,13 @@ export default function UserProfile() {
         }}
       >
         <div>
-          <img
+          {/* <img
             style={{ width: "160px", height: "160px", borderRadius: "80px" }}
-            // src={UserProfile.user.pic}
-          />
+            src={user?.pic}
+          /> */}
         </div>
         <div>
-          <h4>{state ? state.name : ";loading"}</h4>
+          <h4>{user ? user.name : ";loading"}</h4>
           <div
             style={{
               display: "flex",
@@ -71,7 +72,7 @@ export default function UserProfile() {
         </div>
       </div>
       <div className="gallary">
-        {/* {mypics.map((item) => {
+        {mypics.map((item) => {
           return (
             <img
               key={item._id}
@@ -80,7 +81,7 @@ export default function UserProfile() {
               alt={item.title}
             />
           );
-        })} */}
+        })}
       </div>
     </div>
   );

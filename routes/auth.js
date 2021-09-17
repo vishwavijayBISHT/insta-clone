@@ -34,7 +34,7 @@ router.post("/signup", (req, res) => {
   });
 });
 
-router.post("/login", (req, res) => {
+router.post("/signin", (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(422).json({ error: "Add all the field" });
@@ -44,8 +44,8 @@ router.post("/login", (req, res) => {
     bcrypt.compare(password, savedUser.password).then((match) => {
       if (match) {
         const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
-
-        return res.json({ token });
+        const { _id, name, email } = savedUser;
+        return res.json({ token, user: { _id, name, email } });
       } else {
         return res.json({ error: "not matched" });
       }
