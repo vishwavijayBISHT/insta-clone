@@ -44,7 +44,7 @@ const userAllPost = async (req, res) => {
       "postedby",
       "_id name"
     );
-    if (allpost) return res.json({ post: allpost });
+    if (allpost) return res.json({ post: allpost, user: req.user });
     else return res, json({ error: "no post found" });
   } catch (err) {
     console.log(err);
@@ -126,5 +126,18 @@ router.put("/like", requirelogin, likes);
 router.put("/unlike", requirelogin, unlikes);
 router.put("/comment", requirelogin, comment);
 router.delete("/deletepost/:postid", requirelogin, deletepost);
+
+const getsubPost = async (req, res) => {
+  try {
+    const allpost = await Post.find({
+      postedby: { $in: req.user.following },
+    }).populate("postedby", "_id name");
+    res.json({ post: allpost });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+router.get("/getsubpost", requirelogin, getsubPost);
 
 module.exports = router;

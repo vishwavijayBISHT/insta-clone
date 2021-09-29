@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema({
   },
   followers: [{ type: ObjectId, ref: "User" }],
   following: [{ type: ObjectId, ref: "User" }],
+  pic: {
+    type: "String",
+    default:
+      "https://www.iconfinder.com/icons/2415477/female_link_user_users_icon",
+  },
 });
 
 mongoose.model("User", userSchema);

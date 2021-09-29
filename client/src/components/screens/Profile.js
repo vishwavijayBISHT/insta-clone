@@ -3,6 +3,7 @@ import { UserContext } from "../../App";
 
 export default function Profile() {
   const [mypics, setPics] = useState([]);
+  const [u, setu] = useState(null);
   const { state, dispatch } = useContext(UserContext);
   const [image, setimage] = useState("");
   const [url, seturl] = useState("undefined");
@@ -13,6 +14,7 @@ export default function Profile() {
       res.json().then((result) => {
         console.log(result);
         setPics(result.post);
+        setu(result.user);
       })
     );
   }, []);
@@ -57,6 +59,7 @@ export default function Profile() {
   const updatephoto = (file) => {
     setimage(file);
   };
+  console.log(state);
   return (
     <div style={{ maxWidth: "550px", margin: "0px auto" }}>
       <div
@@ -70,7 +73,7 @@ export default function Profile() {
         <div>
           <img
             style={{ width: "160px", height: "160px", borderRadius: "80px" }}
-            src={state ? state.pic : "Loading"}
+            src={state ? u?.pic : "Loading"}
           />
         </div>
 
@@ -83,9 +86,9 @@ export default function Profile() {
               width: "108%",
             }}
           >
-            <h6>40 post</h6>
-            <h6>40 follwers</h6>
-            <h6>40 folowwing</h6>
+            <h6>{mypics?.length} post</h6>
+            <h6>{u?.followers?.length} follwers</h6>
+            <h6>{u?.following?.length} folowwing</h6>
           </div>
 
           <div className="file-field input-field">

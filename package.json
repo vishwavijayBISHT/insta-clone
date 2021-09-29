@@ -19,8 +19,11 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
+    "html-pdf-node": "^1.0.7",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.6",
+    "nodemailer": "^6.6.3",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^2.0.12"
   }
 }

@@ -14,6 +14,7 @@ import "./App.css";
 import UserProfile from "./components/screens/UserProfile";
 import Reset from "./components/screens/Reset";
 import NewPass from "./components/screens/NewPass";
+import Sus from "./components/screens/SubscribesUserPosts";
 export const UserContext = createContext();
 
 const Routing = () => {
@@ -57,6 +58,9 @@ const Routing = () => {
       </Route>
       <Route exact path="/reset/:token">
         <NewPass />
+      </Route>
+      <Route exact path="/myfollowerspost">
+        <Sus />
       </Route>
     </Switch>
   );

@@ -4,15 +4,17 @@ import { useParams } from "react-router-dom";
 
 export default function UserProfile() {
   const [mypics, setPics] = useState([]);
+
   const { state, dispatch } = useContext(UserContext);
   const { userid } = useParams();
   const [user, setuser] = useState();
+  console.log(state);
+  const [sf, setsf] = useState(state?.followers?.includes(userid));
   useEffect(() => {
     fetch(`/users/${userid}`, {
       headers: { Authorization: "Bearer " + localStorage.getItem("jwt") },
     }).then((res) =>
       res.json().then((result) => {
-        console.log(result);
         setPics(result.post);
         setuser(result.user);
       })
@@ -26,14 +28,53 @@ export default function UserProfile() {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
-        followid: userid,
+        followId: userid,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        dispatch({
+          type: "UPDATE",
+          payload: { following: data.following, followers: data.follower },
+        });
+        localStorage.setItem("user", JSON.stringify(data));
+        setuser({
+          ...user,
+          following: data.following.following,
+          followers: data.follower.followers,
+        });
+        setsf(false);
       });
   };
+  const unfollowUser = () => {
+    fetch("/unfollow", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        unfollowId: userid,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        dispatch({
+          type: "UPDATE",
+          payload: { following: data.following, followers: data.follower },
+        });
+        localStorage.setItem("user", JSON.stringify(data));
+        setuser({
+          ...user,
+          following: data.following.following,
+          followers: data.follower.followers,
+        });
+        setsf(true);
+      });
+  };
+  console.log(user);
   return (
     <div style={{ maxWidth: "550px", margin: "0px auto" }}>
       <div
@@ -45,10 +86,10 @@ export default function UserProfile() {
         }}
       >
         <div>
-          {/* <img
+          <img
             style={{ width: "160px", height: "160px", borderRadius: "80px" }}
             src={user?.pic}
-          /> */}
+          />
         </div>
         <div>
           <h4>{user ? user.name : ";loading"}</h4>
@@ -59,16 +100,25 @@ export default function UserProfile() {
               width: "108%",
             }}
           >
-            <h6>40 post</h6>
-            <h6>40 follwers</h6>
-            <h6>40 folowing</h6>
+            <h6>{mypics?.length} post</h6>
+            <h6>{user?.followers.length} followers</h6>
+            <h6>{user?.following.length} following</h6>
           </div>
-          <button
-            className="btn waves-effect waves-light #1e88e5 blue darken-1"
-            onClick={() => followUser()}
-          >
-            follow
-          </button>
+          {sf ? (
+            <button
+              className="btn waves-effect waves-light #1e88e5 blue darken-1"
+              onClick={() => followUser()}
+            >
+              Follow
+            </button>
+          ) : (
+            <button
+              className="btn waves-effect waves-light #1e88e5 blue darken-1"
+              onClick={() => unfollowUser()}
+            >
+              Unfollow
+            </button>
+          )}
         </div>
       </div>
       <div className="gallary">

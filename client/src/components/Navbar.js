@@ -50,6 +50,9 @@ export default function Navbar() {
           <Link to="/createpost">Create Post</Link>
         </li>,
         <li>
+          <Link to="/myfollowerspost">My Following Post</Link>
+        </li>,
+        <li>
           <button
             className="btn waves-effect waves-light #1e88e5 blue darken-1"
             onClick={() => {
@@ -108,7 +111,7 @@ export default function Navbar() {
                     setSearch("");
                   }}
                 >
-                  <li className="collection-item">{item.email}</li>;
+                  <li className="collection-item">{item.email}</li>
                 </Link>
               );
             })}
